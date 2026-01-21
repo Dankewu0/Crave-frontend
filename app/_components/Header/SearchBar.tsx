@@ -69,7 +69,7 @@ export default function SearchBar({ className }: SearchBarProps) {
     >
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex items-center bg-white rounded-md overflow-hidden shadow-sm border border-gray-200 focus-within:border-orange-500 transition-colors"
+        className="flex items-center bg-white rounded-md overflow-hidden shadow-sm border border-gray-200 focus-within:border-amber-500 transition-colors"
       >
         <div className="flex-1 flex items-center px-3">
           <input
@@ -95,7 +95,7 @@ export default function SearchBar({ className }: SearchBarProps) {
         </div>
         <button
           type="submit"
-          className="bg-orange-500 hover:bg-orange-600 px-5 py-2.5 text-white transition-colors"
+          className="bg-amber-400 hover:bg-amber-500 px-5 py-2.5 text-white transition-colors"
         >
           <Search size={20} strokeWidth={2.5} />
         </button>

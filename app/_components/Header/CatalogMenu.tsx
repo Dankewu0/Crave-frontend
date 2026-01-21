@@ -15,7 +15,7 @@ export default function CatalogMenu() {
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="flex items-center gap-2 bg-amber-400 rounded-lg hover:bg-amber-500">
+          <Button className="flex items-center gap-2 bg-amber-400 rounded-lg p-4 hover:bg-amber-500">
             Каталог
             <ChevronDown className="transition-transform duration-200 data-[state=open]:rotate-180" />
           </Button>

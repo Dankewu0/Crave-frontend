@@ -18,7 +18,7 @@ const ACTION_LINKS = [
 export default function Header({ className }: HeaderProps) {
   return (
     <header className={cn("w-full bg-white shadow-sm", className)}>
-      <div className="bg-gray-50 border-b border-gray-100">
+      <div>
         <div className="max-w-7xl mx-auto px-4 h-10 flex justify-between items-center text-sm text-gray-600">
           <NavigationMenu />
           <a
@@ -32,11 +32,8 @@ export default function Header({ className }: HeaderProps) {
 
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center gap-8">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              className="text-3xl font-black text-orange-500 tracking-tighter uppercase"
-            >
+          <div className="flex items-center gap-4 bg-amber-400 p-4 text-white rounded-lg">
+            <Link href="/" className="text-3xl font-black uppercase">
               Crave
             </Link>
             <CatalogMenu />
