@@ -5,7 +5,7 @@ import Header from "./_components/Header/Header";
 import Footer from "./_components/Footer";
 import HeaderMobile from "./_components/Header/HeaderMobile";
 import BottomMenu from "./_components/MobileComponents/BottomMenu";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/_lib/utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

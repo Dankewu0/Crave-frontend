@@ -3,7 +3,7 @@ import NavigationMenu from "./NavigationMenu";
 import { CircleUserRound, ShoppingCart, Heart } from "lucide-react";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/_lib/utils";
 
 interface HeaderProps {
   className?: string;
