@@ -2,7 +2,7 @@ export default function HomeCard() {
   return (
     <div className="flex flex-row justify-between m-8">
       <div className="flex flex-row">
-        <div className="shadow-lg rounded-lg p-4 h-50 w-30">
+        <div className="shadow-lg gap-2 rounded-lg p-4 h-50 w-30">
           <span>HomeCard1</span>
         </div>
         <div className="flex flex-col gap-8">

@@ -1,58 +1,128 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "../ui/button";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/app/_lib/utils";
 
 type FormData = { search: string };
 type Category = { slug: string; name: string };
 
-export default function SearchBar() {
-  const { register, watch } = useForm<FormData>();
+interface SearchBarProps {
+  className?: string;
+}
+
+export default function SearchBar({ className }: SearchBarProps) {
+  const { register, watch, setValue, handleSubmit } = useForm<FormData>();
   const [results, setResults] = useState<Category[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const query = watch("search");
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      if (!query) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const handler = setTimeout(async () => {
+      if (!query || query.length < 2) {
         setResults([]);
+        setIsOpen(false);
         return;
       }
 
-      fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/search?q=${encodeURIComponent(query)}`,
-      )
-        .then((res) => res.json())
-        .then(setResults)
-        .catch(() => setResults([]));
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/search?q=${encodeURIComponent(query)}`,
+        );
+        const data = await res.json();
+        setResults(data);
+        setIsOpen(true);
+      } catch {
+        setResults([]);
+      }
     }, 300);
 
     return () => clearTimeout(handler);
   }, [query]);
 
-  return (
-    <div className="flex flex-col gap-2 w-80">
-      <div className="flex border-2 border-gray-100 rounded-lg items-center">
-        <input
-          {...register("search")}
-          type="text"
-          placeholder="Поиск..."
-          className="flex-1 px-2 py-1 outline-none"
-        />
-        <Button className="flex items-center gap-2 bg-white hover:bg-gray-100">
-          <Search />
-        </Button>
-      </div>
+  const onSubmit = (data: FormData) => {
+    console.log("Searching for:", data.search);
+    setIsOpen(false);
+  };
 
-      {results.length > 0 && (
-        <ul className="border rounded p-2 bg-white">
-          {results.map((item) => (
-            <li key={item.slug} className="py-1">
-              {item.name}
-            </li>
-          ))}
-        </ul>
+  return (
+    <div
+      ref={containerRef}
+      className={cn("relative w-full max-w-2xl", className)}
+    >
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex items-center bg-white rounded-md overflow-hidden shadow-sm border border-gray-200 focus-within:border-orange-500 transition-colors"
+      >
+        <div className="flex-1 flex items-center px-3">
+          <input
+            {...register("search")}
+            type="text"
+            autoComplete="off"
+            placeholder="Поиск по сайту"
+            className="w-full py-2.5 text-sm outline-none text-gray-800"
+            onFocus={() => query?.length >= 2 && setIsOpen(true)}
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => {
+                setValue("search", "");
+                setResults([]);
+              }}
+              className="p-1 text-gray-400 hover:text-gray-600"
+            >
+              <X size={18} />
+            </button>
+          )}
+        </div>
+        <button
+          type="submit"
+          className="bg-orange-500 hover:bg-orange-600 px-5 py-2.5 text-white transition-colors"
+        >
+          <Search size={20} strokeWidth={2.5} />
+        </button>
+      </form>
+
+      {isOpen && results.length > 0 && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-xl z-[100] overflow-hidden">
+          <div className="py-2">
+            <div className="px-4 py-1 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+              Категории
+            </div>
+            <ul>
+              {results.map((item) => (
+                <li key={item.slug}>
+                  <Link
+                    href={`/catalog/${item.slug}`}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-orange-600 transition-colors"
+                  >
+                    <Search size={14} className="mr-3 text-gray-300" />
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       )}
     </div>
   );

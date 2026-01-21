@@ -2,7 +2,7 @@ import CatalogMenu from "./CatalogMenu";
 import NavigationMenu from "./NavigationMenu";
 import { CircleUserRound, ShoppingCart, Heart } from "lucide-react";
 import Link from "next/link";
-
+import SearchBar from "./SearchBar";
 export default function Header() {
   return (
     <header className="flex flex-col gap-2">
@@ -18,6 +18,7 @@ export default function Header() {
             <span className="font-bold text-lg">Crave</span>
             <CatalogMenu />
           </div>
+          <SearchBar />
           <div className="flex gap-4">
             <Link href="/cart" className="flex flex-col items-center">
               <ShoppingCart className="w-6 h-6" />
