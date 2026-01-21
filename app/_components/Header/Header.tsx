@@ -3,36 +3,64 @@ import NavigationMenu from "./NavigationMenu";
 import { CircleUserRound, ShoppingCart, Heart } from "lucide-react";
 import Link from "next/link";
 import SearchBar from "./SearchBar";
-export default function Header() {
+import { cn } from "@/lib/utils";
+
+interface HeaderProps {
+  className?: string;
+}
+
+const ACTION_LINKS = [
+  { href: "/favourite", icon: Heart, label: "Избранное" },
+  { href: "/cart", icon: ShoppingCart, label: "Корзина" },
+  { href: "/profile", icon: CircleUserRound, label: "Профиль" },
+] as const;
+
+export default function Header({ className }: HeaderProps) {
   return (
-    <header className="flex flex-col gap-2">
-      <div className="flex justify-center">
-        <div className="w-full max-w-7xl flex justify-between items-center px-4">
+    <header className={cn("w-full bg-white shadow-sm", className)}>
+      <div className="bg-gray-50 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 h-10 flex justify-between items-center text-sm text-gray-600">
           <NavigationMenu />
-          <span>8-000-000-00-00</span>
+          <a
+            href="tel:80000000000"
+            className="hover:text-orange-500 transition-colors"
+          >
+            8-000-000-00-00
+          </a>
         </div>
       </div>
-      <div className="flex justify-center">
-        <div className="w-full max-w-7xl flex justify-between items-center px-4">
-          <div className="flex items-center p-2 gap-2 bg-amber-400 text-white rounded-lg">
-            <span className="font-bold text-lg">Crave</span>
+
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4">
+            <Link
+              href="/"
+              className="text-3xl font-black text-orange-500 tracking-tighter uppercase"
+            >
+              Crave
+            </Link>
             <CatalogMenu />
           </div>
-          <SearchBar />
-          <div className="flex gap-4">
-            <Link href="/cart" className="flex flex-col items-center">
-              <ShoppingCart className="w-6 h-6" />
-              <span>Корзина</span>
-            </Link>
-            <Link href="/favourite" className="flex flex-col items-center">
-              <Heart className="w-6 h-6" />
-              <span>Избранное</span>
-            </Link>
-            <Link href="/profile" className="flex flex-col items-center">
-              <CircleUserRound className="w-6 h-6" />
-              <span>Профиль</span>
-            </Link>
+
+          <div className="flex-1">
+            <SearchBar className="w-full" />
           </div>
+
+          <nav className="flex items-center gap-6">
+            {ACTION_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex flex-col items-center gap-1 text-gray-700 hover:text-orange-500 transition-all group"
+              >
+                <item.icon
+                  size={24}
+                  className="group-hover:scale-110 transition-transform"
+                />
+                <span className="text-xs font-medium">{item.label}</span>
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </header>
