@@ -6,7 +6,6 @@ interface NavigationMenuProps {
 }
 
 const NAV_LINKS = [
-  { href: "/faq", label: "FAQ" },
   { href: "/discounts", label: "Скидки" },
   { href: "/shops", label: "Магазины" },
 ] as const;

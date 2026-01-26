@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./_components/Header/Header";
 import Footer from "./_components/Footer";
-import HeaderMobile from "./_components/Header/HeaderMobile";
 import BottomMenu from "./_components/MobileComponents/BottomMenu";
 import { cn } from "@/app/_lib/utils";
 
@@ -36,8 +35,7 @@ export default function RootLayout({
           "antialiased min-h-screen flex flex-col",
         )}
       >
-        <HeaderMobile className="lg:hidden" />
-        <Header className="hidden lg:block" />
+        <Header />
 
         <main className="flex-1 pb-20 lg:pb-8">{children}</main>
 

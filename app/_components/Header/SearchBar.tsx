@@ -95,7 +95,7 @@ export default function SearchBar({ className }: SearchBarProps) {
         </div>
         <button
           type="submit"
-          className="bg-amber-400 hover:bg-amber-500 px-5 py-2.5 text-white transition-colors"
+          className="px-5 py-2.5 text-gray-400 transition-colors"
         >
           <Search size={20} strokeWidth={2.5} />
         </button>
